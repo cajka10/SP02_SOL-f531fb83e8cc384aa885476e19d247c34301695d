@@ -21,7 +21,7 @@ private:
 	structures::SortedSequenceTable<string, Kraj*>* kraje_;
 	structures::SortedSequenceTable<string, Okres*>* okresy_;
 	FilterFI<double, Oblast>* filterUcast;
-	Filter_fi<bool, Oblast>* filterNachadzaSa;
+	Filter_fi<bool, Obec>* filterNachadzaSa;
 	Filter_fi<string, Oblast>* filterNazov;
 	FilterFI<int, Oblast>* filterVolici;
 

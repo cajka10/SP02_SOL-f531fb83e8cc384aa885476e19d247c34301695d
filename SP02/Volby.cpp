@@ -12,7 +12,7 @@ Volby::Volby()
 	this->obce_ = new structures::SortedSequenceTable<string, Obec*>();
 	this->kraje_ = new structures::SortedSequenceTable<string, Kraj*>();
 	this->okresy_ = new structures::SortedSequenceTable<string, Okres*>();
-	this->filterNachadzaSa = new Filter_fi<bool, Oblast>();
+	this->filterNachadzaSa = new Filter_fi<bool, Obec>();
 	this->filterUcast = new FilterFI<double, Oblast>();
 	this->filterNazov = new Filter_fi<string, Oblast>();
 	this->filterVolici = new FilterFI<int, Oblast>();
@@ -24,12 +24,12 @@ Volby::Volby()
 	//this->kNachadzaSa = new KriteriumNachadzaSa<bool, Oblast>();
 
 	vypisMenu();
-	std::cout << "ouuuuuuuu!";
+	
 }
 void Volby::nacitajSubory()
 {
 
-	ifstream is("dediny_skrajmi.csv");
+	ifstream is("dediny_vstup.csv");
 
 	if (!is.is_open())
 	{
@@ -48,6 +48,7 @@ void Volby::nacitajSubory()
 	string pocetOdovzObalok2;
 	string pocetPlatHlasov2;
 	string nazovOkresu;
+	string nazovKraju;
 
 	while (is.good())
 	{
@@ -63,7 +64,8 @@ void Volby::nacitajSubory()
 		getline(is, ucast2, ';');
 		getline(is, pocetOdovzObalok2, ';');
 		getline(is, pocetPlatHlasov2, ';');
-		getline(is, nazovOkresu, '\n');
+		getline(is, nazovOkresu, ';');
+		getline(is, nazovKraju, '\n');
 
 		Obec* pomDedina = new Obec(nazov);
 		pomDedina->set_pocet_zap_volicov1(stoi(pocetZapVolicov1));
@@ -78,6 +80,7 @@ void Volby::nacitajSubory()
 		pomDedina->set_pocet_odovzd_obalok2(stoi(pocetOdovzObalok2));
 		pomDedina->set_pocet_plat_hlasov2(stoi(pocetPlatHlasov2));
 		pomDedina->set_nazov_okresu(nazovOkresu);
+		pomDedina->set_nazov_kraju(nazovKraju);
 		obce_->insert(nazov, pomDedina);
 
 
@@ -126,7 +129,7 @@ void Volby::nacitajSubory()
 
 	is.clear();
 
-	is.open("okresy.csv");
+	is.open("okresy_vstup.csv");
 	if (!is.is_open())
 	{
 		std::cout << "Error: File Open" << "\n";
@@ -145,7 +148,9 @@ void Volby::nacitajSubory()
 		getline(is, pocetVydObalok2, ';');
 		getline(is, ucast2, ';');
 		getline(is, pocetOdovzObalok2, ';');
-		getline(is, pocetPlatHlasov2, '\n');
+		getline(is, pocetPlatHlasov2, ';');
+		getline(is, nazovKraju, '\n');
+
 
 		Okres* pomOkres = new Okres(nazov);
 		pomOkres->set_pocet_zap_volicov1(stoi(pocetZapVolicov1));
@@ -159,7 +164,8 @@ void Volby::nacitajSubory()
 		pomOkres->set_ucast_volicov_percenta2(stod(ucast2));
 		pomOkres->set_pocet_odovzd_obalok2(stoi(pocetOdovzObalok2));
 		pomOkres->set_pocet_plat_hlasov2(stoi(pocetPlatHlasov2));
-		okresy_->insert(nazov ,pomOkres);
+		pomOkres->set_nazov_kraju(nazovKraju);
+		okresy_->insert(nazov, pomOkres);
 
 	}
 
@@ -406,24 +412,25 @@ void Volby::zoradMenu()
 	std::cout << "zadaj horna hranica: \n";
 	std::cin >> b;
 	std::cout << "zadaj, pre ktore kolo: \n";
+	std::cin >> kolo;
 	
 	std::cout << " Zadaj v ktorom uzemnom celku sa maju nachadzat: \n";
 	cin >> vyssiUzemnyCelok;
-
-	std::cin >> kolo;
+	
 	filterUcast->set_alpha(a);
 	filterUcast->set_beta(b);
 	kUcast->set_kolo(kolo);
 	kVolici->set_kolo(kolo);
-
+	kNachadzaSa->set_vyssi_uz_celok(vyssiUzemnyCelok);
 	for (auto *item : *obce_)
 	{
-		kNachadzaSa->set_oblast(item->accessData());
-
+		filterNachadzaSa->set_alpha(true);
 
 		//nevie dat <Bool oblast> na <bool Obec>
-		if (filterUcast->evaluate(*item->accessData(), *kUcast))
+		if (filterUcast->evaluate(*item->accessData(), *kUcast) && filterNachadzaSa->evaluate(*item->accessData(), *kNachadzaSa))
 		{
+			
+
 			pomObce->insert(item->accessData()->get_nazov(), item->accessData());
 		}
 	}

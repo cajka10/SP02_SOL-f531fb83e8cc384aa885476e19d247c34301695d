@@ -10,7 +10,7 @@ private:
 public:
 	Obec(string nazov);
 	~Obec();
-	bool nachadzaSa (Oblast* oblast) const;
+	bool nachadzaSa (string vyssiUzCelok) const;
 
 	string get_nazov_okresu() const
 	{

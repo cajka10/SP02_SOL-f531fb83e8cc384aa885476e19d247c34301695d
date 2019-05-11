@@ -65,6 +65,8 @@ public:
 		else if (kolo == 2)
 		{
 			std::cout << "-------------------------------------------------------------\n";
+			std::cout << this->get_nazov() << "\n";
+
 			std::cout << "2.Kolo: \n";
 			std::cout << "Volici:" << this->get_pocet_zap_volicov(2) << "\n";
 			std::cout << "Vydane Obalky:" << this->get_pocet_vyd_obalok(2) << "\n";

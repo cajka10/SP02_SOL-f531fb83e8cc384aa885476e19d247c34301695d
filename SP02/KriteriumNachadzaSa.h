@@ -7,15 +7,17 @@ public:
 	KriteriumNachadzaSa();
 	bool evaluate(const Obec& object) override
 	{
-		return object.nachadzaSa(oblast_);
+		return object.nachadzaSa(vyssiUzCelok);
 	}
 
-	void set_oblast(Obec* oblast)
+
+	void set_vyssi_uz_celok(const string& vyssi_uz_celok)
 	{
-		oblast_ = oblast;
+		vyssiUzCelok = vyssi_uz_celok;
 	}
 
-private: Obec* oblast_;
+private: 
+	string vyssiUzCelok;
 };
 
 template <typename T, typename O>

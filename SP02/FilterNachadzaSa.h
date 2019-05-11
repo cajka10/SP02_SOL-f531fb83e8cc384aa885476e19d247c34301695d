@@ -5,5 +5,8 @@
 class  FilterNachadzaSa : public Filter_fi<bool, Obec>
 {
 public:
-	FilterNachadzaSa();
+	FilterNachadzaSa() : Filter_fi<bool, Obec>()
+	{
+		
+	}
 };
