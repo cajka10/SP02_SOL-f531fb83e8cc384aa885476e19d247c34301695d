@@ -45,7 +45,11 @@ namespace structures
 
 		/// <summary> Utriedi tabu¾ku. </summary>
 		/// <param name = "table"> NonortedSequenceTable, ktoru ma utriedit. </param>
-		virtual void sort(UnsortedSequenceTable<K, T>& table,  Kriterium<O, S>& kriterium ) = 0;
+		virtual void sortAsc(UnsortedSequenceTable<K, T>& table,  Kriterium<O, S>& kriterium ) = 0;
+
+		/// <summary> Utriedi tabu¾ku. </summary>
+		/// <param name = "table"> NonortedSequenceTable, ktoru ma utriedit. </param>
+		virtual void sortDesc(UnsortedSequenceTable<K, T>& table, Kriterium<O, S>& kriterium) = 0;
 
 		/// <summary> Parametricky konstruktor. </summary>
 		/// <param name = "sortNotifier"> Funkcny objekt urceny na notifikaciu pokroku v triediacom algoritme. </param>

@@ -394,7 +394,7 @@ void Volby::zoradMenu()
 	
 	structures::UnsortedSequenceTable<string, Oblast*>* pomObce = new structures::UnsortedSequenceTable<string, Oblast*>();
 	
-
+	int triedenie;
 	char rozhodnutie;
 	int a, b, kolo;
 	string vyssiUzemnyCelok;
@@ -429,7 +429,7 @@ void Volby::zoradMenu()
 		//nevie dat <Bool oblast> na <bool Obec>
 		if (filterUcast->evaluate(*item->accessData(), *kUcast) && filterNachadzaSa->evaluate(*item->accessData(), *kNachadzaSa))
 		{
-			
+
 
 			pomObce->insert(item->accessData()->get_nazov(), item->accessData());
 		}
@@ -438,16 +438,46 @@ void Volby::zoradMenu()
 	if (rozhodnutie == 'a')
 	{
 		structures::HeapSort<string, Oblast*, string, Oblast>* heap_sort = new structures::HeapSort<string, Oblast*, string, Oblast>();
-				
-		heap_sort->sort(*pomObce, *kNazov );
+		std::cout << "1 - zostupne. \n";
+		std::cout << "2 - vzostupne. \n";
+		cin >> triedenie;
+		if (triedenie == 1)
+		{
+			heap_sort->sortDesc(*pomObce, *kNazov);
+
+		}
+		else if (triedenie == 2)
+		{
+			heap_sort->sortAsc(*pomObce, *kNazov);
+
+		}
+		else
+		{
+			zoradMenu();
+		}
 		delete heap_sort;
 
 	}
 	if (rozhodnutie == 'b')
 	{
 		structures::HeapSort<string, Oblast*, int, Oblast>* heap_sort = new structures::HeapSort<string, Oblast*, int, Oblast>();
+		std::cout << "1 - zostupne. \n";
+		std::cout << "2 - vzostupne. \n";
+		cin >> triedenie;
+		if (triedenie == 1)
+		{
+			heap_sort->sortDesc(*pomObce, *kVolici);
 
-		heap_sort->sort(*pomObce, *kVolici);
+		}
+		else if (triedenie == 2)
+		{
+			heap_sort->sortAsc(*pomObce, *kVolici);
+
+		}
+		else
+		{
+			zoradMenu();
+		}
 		delete heap_sort;
 
 	}
@@ -455,9 +485,23 @@ void Volby::zoradMenu()
 	{
 		structures::HeapSort<string, Oblast*, double, Oblast>* heap_sort = new structures::HeapSort<string, Oblast*, double, Oblast>();
 
-		
+		std::cout << "1 - zostupne. \n";
+		std::cout << "2 - vzostupne. \n";
+		cin >> triedenie;
+		if (triedenie == 1)
+		{
+			heap_sort->sortDesc(*pomObce, *kUcast);
 
-		heap_sort->sort(*pomObce, *kUcast);
+		}
+		else if (triedenie == 2)
+		{
+			heap_sort->sortAsc(*pomObce, *kUcast);
+
+		}
+		else
+		{
+			zoradMenu();
+		}
 		delete heap_sort;
 
 	}
