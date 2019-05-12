@@ -169,10 +169,6 @@
     <ClInclude Include="structures\table\sorting\heap_sort.h" />
     <ClInclude Include="structures\table\sorting\insert_sort.h" />
     <ClInclude Include="structures\table\sorting\merge_sort.h" />
-    <ClInclude Include="structures\table\sorting\quick_sort.h" />
-    <ClInclude Include="structures\table\sorting\radix_sort.h" />
-    <ClInclude Include="structures\table\sorting\select_sort.h" />
-    <ClInclude Include="structures\table\sorting\shell_sort.h" />
     <ClInclude Include="structures\table\sorting\shuffle.h" />
     <ClInclude Include="structures\table\sorting\sort.h" />
     <ClInclude Include="structures\table\table.h" />

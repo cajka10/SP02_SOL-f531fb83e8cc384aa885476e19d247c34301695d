@@ -129,19 +129,7 @@
     <ClInclude Include="structures\queue\queue.h">
       <Filter>Header Files\structures</Filter>
     </ClInclude>
-    <ClInclude Include="structures\table\sorting\quick_sort.h">
-      <Filter>Header Files\structures</Filter>
-    </ClInclude>
-    <ClInclude Include="structures\table\sorting\radix_sort.h">
-      <Filter>Header Files\structures</Filter>
-    </ClInclude>
-    <ClInclude Include="structures\table\sorting\select_sort.h">
-      <Filter>Header Files\structures</Filter>
-    </ClInclude>
     <ClInclude Include="structures\table\sequence_table.h">
-      <Filter>Header Files\structures</Filter>
-    </ClInclude>
-    <ClInclude Include="structures\table\sorting\shell_sort.h">
       <Filter>Header Files\structures</Filter>
     </ClInclude>
     <ClInclude Include="structures\table\sorting\shuffle.h">

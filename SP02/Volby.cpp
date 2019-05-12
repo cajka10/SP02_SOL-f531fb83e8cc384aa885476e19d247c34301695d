@@ -12,7 +12,7 @@ Volby::Volby()
 	this->obce_ = new structures::SortedSequenceTable<string, Obec*>();
 	this->kraje_ = new structures::SortedSequenceTable<string, Kraj*>();
 	this->okresy_ = new structures::SortedSequenceTable<string, Okres*>();
-	this->neutriedeneObce_ = new structures::UnsortedSequenceTable<string, Oblast*>;
+	
 
 	this->filterNachadzaSa = new Filter_fi<bool, Obec>();
 	this->filterUcast = new FilterFI<double, Oblast>();
@@ -24,7 +24,7 @@ Volby::Volby()
 	this->kUcast = new KriteriumUcast<double, Oblast>();
 	this->kNachadzaSa = new KriteriumNachadzaSa<bool, Obec>();
 	//this->kNachadzaSa = new KriteriumNachadzaSa<bool, Oblast>();
-
+	nacitajSubory();
 	vypisMenu();
 	
 }
@@ -187,9 +187,10 @@ void Volby::vypisMenu()
 	while (cyklus)
 	{
 		std::cout << "\n-------------------------------------------------------------\n" << endl;
-		cout << "1.Nacitaj data \n" << endl;
-		cout << "2.Vypis Uzemny celok \n" << endl;
-		cout << "3.Zorad dediny \n" << endl;
+		std::cout << "		Prezidentske volby 2019";
+		std::cout << "\n-------------------------------------------------------------\n" << endl;
+		cout << "1.Vypis Uzemny celok \n" << endl;
+		cout << "2.Zorad dediny \n" << endl;
 		cout << "0.Ukonci program \n" << endl;
 
 		std::cout << "\n-------------------------------------------------------------\n" << endl;
@@ -199,9 +200,8 @@ void Volby::vypisMenu()
 		cin >> c;
 		switch (c)
 		{
-		case 1:nacitajSubory(); break;
-		case 2: vypisPodla(); break;
-		case 3: zoradMenu(); break;
+		case 1: vypisPodla(); break;
+		case 2: zoradMenu(); break;
 		case 0: cyklus = false; break;
 		default: std::cout << "zadal si zly znak:"; break;
 
@@ -247,10 +247,11 @@ void Volby::vypisPodlaNazvu()
 
 	if (obce_->containsKey(vstup))
 	{
-		std::cout << "Obec\n";
-		std::cout << "-------------------------------------------------------------\n";
+		
 
 		if (filterNazov->evaluate(*obce_->operator[](vstup), *kNazov)) {
+			std::cout << "Obec\n";
+			std::cout << "-------------------------------------------------------------\n";
 			obce_->operator[](vstup)->vypisInfo();
 			cout << obce_->operator[](vstup)->get_nazov_okresu()<< endl;
 			cout << obce_->operator[](vstup)->get_nazov_kraju() << endl;
@@ -308,13 +309,14 @@ void Volby::vypisPodlaVolicov()
 	filterVolici->set_alpha(a);
 	filterVolici->set_beta(b);
 	kVolici->set_kolo(kolo);
-	std::cout << "Obec\n";
 
 	for (auto *item : *obce_)
 	{
 
 		if (filterVolici->evaluate(*item->accessData(), *kVolici))
 		{
+			std::cout << "Obec\n";
+
 			std::cout << "-------------------------------------------------------------\n";
 
 			item->accessData()->vypisInfo();
@@ -331,6 +333,8 @@ void Volby::vypisPodlaVolicov()
 
 		if (filterVolici->evaluate(*item->accessData(), *kVolici))
 		{
+			std::cout << "Okres\n";
+
 			std::cout << "-------------------------------------------------------------\n";
 
 			item->accessData()->vypisInfo();
@@ -346,6 +350,8 @@ void Volby::vypisPodlaVolicov()
 
 		if (filterVolici->evaluate(*item->accessData(), *kVolici))
 		{
+			std::cout << "Kraj\n";
+
 			std::cout << "-------------------------------------------------------------\n";
 
 			item->accessData()->vypisInfo();
@@ -355,9 +361,6 @@ void Volby::vypisPodlaVolicov()
 		}
 	}
 	
-
-
-
 }
 
 void Volby::vypisPodlaUcasti()
@@ -379,7 +382,7 @@ void Volby::vypisPodlaUcasti()
 	filterUcast->set_beta(b);
 	kUcast->set_kolo(kolo);
 
-	std::cout << "Obec\n";
+	
 
 
 	for (auto *item : *obce_)
@@ -388,9 +391,14 @@ void Volby::vypisPodlaUcasti()
 
 		if (filterUcast->evaluate(*item->accessData(), *kUcast))
 		{
+			std::cout << "Obec\n";
+
+			std::cout << "-------------------------------------------------------------\n";
+
 			item->accessData()->vypisInfo();
 			cout << item->accessData()->get_nazov_okresu() << endl;
 			cout << item->accessData()->get_nazov_kraju() << endl;
+			std::cout << "-------------------------------------------------------------\n";
 
 		}
 	}
@@ -400,19 +408,30 @@ void Volby::vypisPodlaUcasti()
 
 		if (filterUcast->evaluate(*item->accessData(), *kUcast))
 		{
+			std::cout << "Okres\n";
+
+			std::cout << "-------------------------------------------------------------\n";
+
 			item->accessData()->vypisInfo();
 			cout << item->accessData()->get_nazov_kraju() << endl;
+			std::cout << "-------------------------------------------------------------\n";
 
 
 		}
 	}
+
 	for (auto *item : *kraje_)
 	{
 
 		if (filterUcast->evaluate(*item->accessData(), *kUcast))
 		{
+			std::cout << "Kraj\n";
+
+			std::cout << "-------------------------------------------------------------\n";
+
 			item->accessData()->vypisInfo();
 
+			std::cout << "-------------------------------------------------------------\n";
 
 		}
 	}
@@ -703,7 +722,7 @@ void Volby::zoradPodla()
 
 Volby::~Volby()
 {
-	delete neutriedeneObce_;
+	
 
 	for (auto obce : *obce_)
 	{
