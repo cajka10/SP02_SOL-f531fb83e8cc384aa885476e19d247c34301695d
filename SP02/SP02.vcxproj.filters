@@ -219,9 +219,6 @@
     <ClInclude Include="Filter_fi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Kluc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FilterNachadzaSa.h">
       <Filter>Header Files</Filter>
     </ClInclude>

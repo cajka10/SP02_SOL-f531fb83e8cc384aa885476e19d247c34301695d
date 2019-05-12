@@ -8,13 +8,13 @@ Obec::Obec(string nazov) : Oblast(nazov)
 
 bool  Obec::nachadzaSa(string vyssiUzCelok) const
 {
-	if (this->get_nazov_okresu() != vyssiUzCelok)
+	if (this->get_nazov_okresu() == vyssiUzCelok || this->get_nazov_kraju() == vyssiUzCelok)
 	{
-		return false;
+		return true;
 	}
 	else
 	{
-		return true;
+		return false;
 
 	}
 }
