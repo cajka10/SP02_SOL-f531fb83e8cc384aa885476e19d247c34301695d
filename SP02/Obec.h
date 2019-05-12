@@ -22,7 +22,7 @@ public:
 		nazovOkresu_ = nazov_okresu;
 	}
 
-	string nazov_kraju() const
+	string get_nazov_kraju() const
 	{
 		return nazovKraju_;
 	}

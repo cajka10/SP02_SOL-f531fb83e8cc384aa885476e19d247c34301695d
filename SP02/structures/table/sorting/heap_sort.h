@@ -25,38 +25,38 @@ namespace structures
 	template<typename K, typename T, typename O, typename S>
 	inline void HeapSort<K, T, O ,S>::sortAsc(UnsortedSequenceTable<K, T>& table, Kriterium<O, S >& kriterium )
 	{
-		bool swapping;
+		bool vymena;
 		for (int i = 1; i < table.size(); i++) {
-			int current = i;
+			int aktualny = i;
 			do {
-				swapping = false;
-				int father = (current - 1) / 2;
-				if ((current > 0) && (kriterium.evaluate(*table.getItemAtIndex(current).accessData() )> kriterium.evaluate(*table.getItemAtIndex(father).accessData()))) {
-					table.swap(current, father);
-					current = father;
-					swapping = true;
+				vymena = false;
+				int father = (aktualny - 1) / 2;
+				if ((aktualny > 0) && (kriterium.evaluate(*table.getItemAtIndex(aktualny).accessData() )> kriterium.evaluate(*table.getItemAtIndex(father).accessData()))) {
+					table.swap(aktualny, father);
+					aktualny = father;
+					vymena = true;
 				}
-			} while (swapping);
+			} while (vymena);
 		}
 		for (int i = table.size() - 1; i > 0; i--) {
 			table.swap(0, i);
-			int current = 0;
+			int aktualny = 0;
 			do {
-				swapping = false;
+				vymena = false;
 				int max;
-				int left = current * 2 + 1;
-				int right = current * 2 + 2;
-				if (left < i && right < i)
-					max = kriterium.evaluate(*table.getItemAtIndex(left).accessData()) > kriterium.evaluate(*table.getItemAtIndex(right).accessData()) ? left : right;
+				int lavy = aktualny * 2 + 1;
+				int pravy = aktualny * 2 + 2;
+				if (lavy < i && pravy < i)
+					max = kriterium.evaluate(*table.getItemAtIndex(lavy).accessData()) > kriterium.evaluate(*table.getItemAtIndex(pravy).accessData()) ? lavy : pravy;
 				else
-					max = left < i ? left : right;
-				if (max < i && kriterium.evaluate(*table.getItemAtIndex(max).accessData()) > kriterium.evaluate(*table.getItemAtIndex(current).accessData())) {
-					table.swap(max, current);
-					current = max;
-					swapping = true;
+					max = lavy < i ? lavy : pravy;
+				if (max < i && kriterium.evaluate(*table.getItemAtIndex(max).accessData()) > kriterium.evaluate(*table.getItemAtIndex(aktualny).accessData())) {
+					table.swap(max, aktualny);
+					aktualny = max;
+					vymena = true;
 				}
 				//notify();
-			} while (swapping);
+			} while (vymena);
 		}
 		
 	}
@@ -64,38 +64,38 @@ namespace structures
 	template <typename K, typename T, typename O, typename S>
 	void HeapSort<K, T, O, S>::sortDesc(UnsortedSequenceTable<K, T>& table, Kriterium<O, S>& kriterium)
 	{
-		bool swapping;
+		bool vymena;
 		for (int i = 1; i < table.size(); i++) {
-			int current = i;
+			int aktualny = i;
 			do {
-				swapping = false;
-				int father = (current - 1) / 2;
-				if ((current > 0) && (kriterium.evaluate(*table.getItemAtIndex(current).accessData()) < kriterium.evaluate(*table.getItemAtIndex(father).accessData()))) {
-					table.swap(current, father);
-					current = father;
-					swapping = true;
+				vymena = false;
+				int father = (aktualny - 1) / 2;
+				if ((aktualny > 0) && (kriterium.evaluate(*table.getItemAtIndex(aktualny).accessData()) < kriterium.evaluate(*table.getItemAtIndex(father).accessData()))) {
+					table.swap(aktualny, father);
+					aktualny = father;
+					vymena = true;
 				}
-			} while (swapping);
+			} while (vymena);
 		}
 		for (int i = table.size() - 1; i > 0; i--) {
 			table.swap(0, i);
-			int current = 0;
+			int aktualny = 0;
 			do {
-				swapping = false;
+				vymena = false;
 				int min;
-				int left = current * 2 + 1;
-				int right = current * 2 + 2;
-				if (left < i && right < i)
-					min = kriterium.evaluate(*table.getItemAtIndex(left).accessData()) < kriterium.evaluate(*table.getItemAtIndex(right).accessData()) ? left : right;
+				int lavy = aktualny * 2 + 1;
+				int pravy = aktualny * 2 + 2;
+				if (lavy < i && pravy < i)
+					min = kriterium.evaluate(*table.getItemAtIndex(lavy).accessData()) < kriterium.evaluate(*table.getItemAtIndex(pravy).accessData()) ? lavy : pravy;
 				else
-					min = left < i ? left : right;
-				if (min < i && kriterium.evaluate(*table.getItemAtIndex(min).accessData()) < kriterium.evaluate(*table.getItemAtIndex(current).accessData())) {
-					table.swap(min, current);
-					current = min;
-					swapping = true;
+					min = lavy < i ? lavy : pravy;
+				if (min < i && kriterium.evaluate(*table.getItemAtIndex(min).accessData()) < kriterium.evaluate(*table.getItemAtIndex(aktualny).accessData())) {
+					table.swap(min, aktualny);
+					aktualny = min;
+					vymena = true;
 				}
 				//notify();
-			} while (swapping);
+			} while (vymena);
 		}
 	}
 

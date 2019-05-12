@@ -181,13 +181,14 @@ void Volby::vypisMenu()
 	bool cyklus = true;
 	while (cyklus)
 	{
-		cout << "----------------------------------------------\n\n" << endl;
+		std::cout << "\n-------------------------------------------------------------\n" << endl;
 		cout << "1.Nacitaj data \n" << endl;
 		cout << "2.Vypis Uzemny celok \n" << endl;
 		cout << "3.Zorad dediny \n" << endl;
 		cout << "0.Ukonci program \n" << endl;
 
-		cout << "----------------------------------------------\n\n" << endl;
+		std::cout << "\n-------------------------------------------------------------\n" << endl;
+
 
 
 		cin >> c;
@@ -242,9 +243,14 @@ void Volby::vypisPodlaNazvu()
 	if (obce_->containsKey(vstup))
 	{
 		std::cout << "Obec\n";
+		std::cout << "-------------------------------------------------------------\n";
 
 		if (filterNazov->evaluate(*obce_->operator[](vstup), *kNazov)) {
 			obce_->operator[](vstup)->vypisInfo();
+			cout << obce_->operator[](vstup)->get_nazov_okresu()<< endl;
+			cout << obce_->operator[](vstup)->get_nazov_kraju() << endl;
+
+			std::cout << "\n-------------------------------------------------------------\n";
 
 		}
 
@@ -254,10 +260,13 @@ void Volby::vypisPodlaNazvu()
 	if (okresy_->containsKey(vstup))
 	{
 		std::cout << "Okres\n";
+		std::cout << "-------------------------------------------------------------\n";
 
 		if (filterNazov->evaluate(*okresy_->operator[](vstup), *kNazov)) {
 			okresy_->operator[](vstup)->vypisInfo();
-
+			cout << okresy_->operator[](vstup)->get_nazov_kraju() << endl;
+			
+			std::cout << "\n-------------------------------------------------------------\n";
 
 		}
 	}
@@ -266,10 +275,11 @@ void Volby::vypisPodlaNazvu()
 	if (kraje_->containsKey(vstup))
 	{
 		std::cout << "Kraj:\n";
+		std::cout << "-------------------------------------------------------------\n";
 
 		if (filterNazov->evaluate(*kraje_->operator[](vstup), *kNazov)) {
 			kraje_->operator[](vstup)->vypisInfo();
-
+			std::cout << "\n-------------------------------------------------------------\n";
 
 		}
 	}
@@ -300,8 +310,14 @@ void Volby::vypisPodlaVolicov()
 
 		if (filterVolici->evaluate(*item->accessData(), *kVolici))
 		{
-			item->accessData()->vypisInfo();
+			std::cout << "-------------------------------------------------------------\n";
 
+			item->accessData()->vypisInfo();
+			cout <<  item->accessData()->get_nazov_okresu() << endl;
+			cout << item->accessData()->get_nazov_kraju() << endl;
+			std::cout << "-------------------------------------------------------------\n";
+
+			
 
 		}
 	}
@@ -310,8 +326,12 @@ void Volby::vypisPodlaVolicov()
 
 		if (filterVolici->evaluate(*item->accessData(), *kVolici))
 		{
-			item->accessData()->vypisInfo();
+			std::cout << "-------------------------------------------------------------\n";
 
+			item->accessData()->vypisInfo();
+			cout << item->accessData()->get_nazov_kraju() << endl;
+
+			std::cout << "-------------------------------------------------------------\n";
 
 
 		}
@@ -321,8 +341,11 @@ void Volby::vypisPodlaVolicov()
 
 		if (filterVolici->evaluate(*item->accessData(), *kVolici))
 		{
+			std::cout << "-------------------------------------------------------------\n";
+
 			item->accessData()->vypisInfo();
 
+			std::cout << "-------------------------------------------------------------\n";
 
 		}
 	}
@@ -361,7 +384,8 @@ void Volby::vypisPodlaUcasti()
 		if (filterUcast->evaluate(*item->accessData(), *kUcast))
 		{
 			item->accessData()->vypisInfo();
-
+			cout << item->accessData()->get_nazov_okresu() << endl;
+			cout << item->accessData()->get_nazov_kraju() << endl;
 
 		}
 	}
@@ -372,6 +396,7 @@ void Volby::vypisPodlaUcasti()
 		if (filterUcast->evaluate(*item->accessData(), *kUcast))
 		{
 			item->accessData()->vypisInfo();
+			cout << item->accessData()->get_nazov_kraju() << endl;
 
 
 		}
@@ -415,7 +440,8 @@ void Volby::zoradMenu()
 	std::cin >> kolo;
 	
 	std::cout << " Zadaj v ktorom uzemnom celku sa maju nachadzat: \n";
-	cin >> vyssiUzemnyCelok;
+	cin.ignore();
+	getline(std::cin, vyssiUzemnyCelok);
 	
 	filterUcast->set_alpha(a);
 	filterUcast->set_beta(b);
@@ -507,7 +533,18 @@ void Volby::zoradMenu()
 	}
 	for (auto item : *pomObce)
 	{
-		item->accessData()->vypisInfoKolo(kolo);
+		if (rozhodnutie == 'a')
+		{
+			cout << item->accessData()->get_nazov() << endl;
+		} else if (rozhodnutie == 'b')
+		{
+				cout << item->accessData()->get_nazov() << "-" << item->accessData()->get_pocet_zap_volicov(kolo) <<  endl;
+		} else
+		{
+			cout << item->accessData()->get_nazov() << "-" << item->accessData()->get_ucast_volicov_percenta(kolo) << endl;
+
+		}
+		
 	}
 
 	delete pomObce;

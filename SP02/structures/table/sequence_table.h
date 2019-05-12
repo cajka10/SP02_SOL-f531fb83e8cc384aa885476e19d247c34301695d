@@ -171,15 +171,15 @@ namespace structures
 	template<typename K, typename T>
 	inline void SequenceTable<K, T>::insert(const K & key, const T & data)
 	{
-		if (!containsKey(key))
-		{
+		/*if (!containsKey(key))
+		{*/
 			TableItem<K, T>* tableItem = new TableItem<K, T>(key, data);
 			list_->add(tableItem);
-		}
-		else
+		//}
+		/*else
 		{
 			throw std::logic_error("SequenceTable<K, T>::insert: Key already present in the table!");
-		}
+		}*/
 	}
 
 	template<typename K, typename T>

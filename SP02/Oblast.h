@@ -31,7 +31,6 @@ public:
 
 	}
 	void vypisInfo() {
-		std::cout << "-------------------------------------------------------------\n";
 		std::cout << this->get_nazov() << "\n";
 		std::cout << "1.Kolo: \n";
 		std::cout << "Volici:" << this->get_pocet_zap_volicov(1) << "\n";
@@ -44,7 +43,6 @@ public:
 		std::cout << "Ucast:" << this->get_ucast_volicov_percenta(2) << "\n";
 		std::cout << "Odovzdane Obalky:" << this->get_pocet_odovzd_obalok(2) << "\n";
 
-		std::cout << "-------------------------------------------------------------\n";
 	}
 	void vypisInfoKolo(int kolo) {
 		if (kolo == 1)
