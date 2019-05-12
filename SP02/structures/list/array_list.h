@@ -22,7 +22,7 @@ namespace structures
 
 		/// <summary> Destruktor. </summary>
 		~ArrayList();
-		
+
 		/// <summary> Operacia klonovania. Vytvori a vrati duplikat zoznamu. </summary>
 		/// <returns> Ukazovatel na klon struktury. </returns>
 		Structure* clone() const override;
@@ -82,7 +82,7 @@ namespace structures
 
 		/// <summary> Vymaze zoznam. </summary>
 		void clear() override;
-	
+
 		/// <summary> Vrati skutocny iterator na zaciatok struktury </summary>
 		/// <returns> Iterator na zaciatok struktury. </returns>
 		/// <remarks> Zabezpecuje polymorfizmus. </remarks>
@@ -140,7 +140,7 @@ namespace structures
 	};
 
 	template<typename T>
-	inline ArrayList<T>::ArrayList():
+	inline ArrayList<T>::ArrayList() :
 		List(),
 		array_(new Array<T>(4)),
 		size_(0)
@@ -148,7 +148,7 @@ namespace structures
 	}
 
 	template<typename T>
-	inline ArrayList<T>::ArrayList(const ArrayList<T>& other):
+	inline ArrayList<T>::ArrayList(const ArrayList<T>& other) :
 		List(),
 		array_(new Array<T>(*other.array_)),
 		size_(other.size_)
@@ -200,14 +200,12 @@ namespace structures
 	template<typename T>
 	inline T & ArrayList<T>::operator[](const int index)
 	{
-		DSRoutines::rangeCheckExcept(index, size_, "Index out of range in ArrayList!");
 		return (*array_)[index];
 	}
 
 	template<typename T>
 	inline const T ArrayList<T>::operator[](const int index) const
 	{
-		DSRoutines::rangeCheckExcept(index, size_, "Index out of range in ArrayList!");
 		return (*array_)[index];
 	}
 
@@ -230,7 +228,7 @@ namespace structures
 		}
 		else
 		{
-			DSRoutines::rangeCheckExcept(index, size_, "Index out of range in ArrayList!");
+			DSRoutines::rangeCheckExcept(index, size_, "Index out of range");
 
 			if (array_->size() == size_)
 			{
@@ -247,7 +245,9 @@ namespace structures
 	{
 		int index = getIndexOf(data);
 		if (index == -1)
+		{
 			return false;
+		}
 		else
 		{
 			removeAt(index);
@@ -258,11 +258,10 @@ namespace structures
 	template<typename T>
 	inline T ArrayList<T>::removeAt(const int index)
 	{
-		DSRoutines::rangeCheckExcept(index, size_, "Invalid index in ArrayList!");
-		T tem = (*array_)[index];
-		Array<T>::copy(*array_, index + 1, *array_, index, static_cast<int>(size_) - index - 1);
+		T result = (*this)[index];
+		Array<T>::copy(*array_, static_cast<int>(index + 1), *array_, static_cast<int>(index), static_cast<int>(size_ - index - 1));
 		size_--;
-		return tem;
+		return result;
 	}
 
 	template<typename T>
@@ -271,7 +270,9 @@ namespace structures
 		for (int index = 0; index < static_cast<int>(size_); index++)
 		{
 			if ((*this)[index] == data)
+			{
 				return index;
+			}
 		}
 		return -1;
 	}
@@ -314,7 +315,7 @@ namespace structures
 	inline ArrayList<T>::ArrayListIterator::~ArrayListIterator()
 	{
 		arrayList_ = nullptr;
-		position_ = -1;
+		position_ = 0;
 	}
 
 	template<typename T>

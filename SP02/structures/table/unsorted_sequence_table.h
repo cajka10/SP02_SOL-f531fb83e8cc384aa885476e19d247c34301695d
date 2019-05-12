@@ -75,7 +75,9 @@ namespace structures
 	template<typename K, typename T>
 	inline void UnsortedSequenceTable<K, T>::swap(TableItem<K, T>& first, TableItem<K, T>& second)
 	{
-		DSRoutines::swap(first, second);
+		TableItem<K, T> temp(first);
+		first = second;
+		second = temp;
 	}
 
 }

@@ -541,7 +541,7 @@ void Volby::zoradVsetko()
 			heap_sort->sortAsc(*pomObce, *kUcast);
 
 		}
-		
+		else 
 		{
 			zoradVsetko();
 		}
