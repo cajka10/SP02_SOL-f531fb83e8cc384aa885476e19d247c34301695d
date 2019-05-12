@@ -424,7 +424,7 @@ void Volby::zoradMenu()
 	int k;
 	std::cout << "chces zotriedit?" << endl;
 	std::cout << "1. Vsetky obce" << endl;
-	std::cout << "1. Iba obce vyhovujuce filtru" << endl;
+	std::cout << "2. Iba obce vyhovujuce filtru" << endl;
 	cin >> k;
 	switch (k)
 	{
@@ -477,12 +477,12 @@ void Volby::zoradVsetko()
 		}
 		else
 		{
-			zoradPodla();
+			zoradVsetko();
 		}
 		delete heap_sort;
 
 	}
-	if (rozhodnutie == 'b')
+	else if (rozhodnutie == 'b')
 	{
 		structures::HeapSort<string, Oblast*, int, Oblast>* heap_sort = new structures::HeapSort<string, Oblast*, int, Oblast>();
 		std::cout << "1 - zostupne. \n";
@@ -500,12 +500,12 @@ void Volby::zoradVsetko()
 		}
 		else
 		{
-			zoradPodla();
+			zoradVsetko();
 		}
 		delete heap_sort;
 
 	}
-	if (rozhodnutie == 'c')
+	else if (rozhodnutie == 'c')
 	{
 		structures::HeapSort<string, Oblast*, double, Oblast>* heap_sort = new structures::HeapSort<string, Oblast*, double, Oblast>();
 
@@ -522,12 +522,16 @@ void Volby::zoradVsetko()
 			heap_sort->sortAsc(*pomObce, *kUcast);
 
 		}
-		else //if (triedenie == 3)
+		
 		{
-			zoradPodla();
+			zoradVsetko();
 		}
 		delete heap_sort;
 
+	}
+	else
+	{
+		zoradVsetko();
 	}
 
 	for (auto item : *pomObce)
@@ -593,7 +597,7 @@ void Volby::zoradPodla()
 	{
 		filterNachadzaSa->set_alpha(true);
 
-		//nevie dat <Bool oblast> na <bool Obec>
+		
 		if (filterUcast->evaluate(*item->accessData(), *kUcast) && filterNachadzaSa->evaluate(*item->accessData(), *kNachadzaSa))
 		{
 

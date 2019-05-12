@@ -76,6 +76,7 @@ namespace structures
 		else
 		{
 			TableItem<K, T>* item = new TableItem<K, T>(key, data);
+
 			list_->insert(item, index);
 		}
 	}
@@ -85,6 +86,7 @@ namespace structures
 	{
 		if (size() != 0)
 		{
+
 			bool found = false;
 			int index = indexOfKey(key, 0, static_cast<int>(size()), found);
 			return found ? (*list_)[index] : nullptr;
