@@ -20,6 +20,8 @@ private:
 	structures::SortedSequenceTable<string, Obec*>* obce_;
 	structures::SortedSequenceTable<string, Kraj*>* kraje_;
 	structures::SortedSequenceTable<string, Okres*>* okresy_;
+	structures::UnsortedSequenceTable<string, Oblast*>* neutriedeneObce_;
+
 	FilterFI<double, Oblast>* filterUcast;
 	Filter_fi<bool, Obec>* filterNachadzaSa;
 	Filter_fi<string, Oblast>* filterNazov;
@@ -42,6 +44,9 @@ public:
 	void vypisPodlaVolicov();
 	void vypisPodlaUcasti();
 	void zoradMenu();
+
+	void zoradVsetko();
+	void zoradPodla();
 	template<typename L, typename S, typename O>
 
 	void zotriedPodla( Kriterium<O,  S>& kriterium);

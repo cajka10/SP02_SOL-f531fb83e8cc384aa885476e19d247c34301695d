@@ -12,6 +12,8 @@ Volby::Volby()
 	this->obce_ = new structures::SortedSequenceTable<string, Obec*>();
 	this->kraje_ = new structures::SortedSequenceTable<string, Kraj*>();
 	this->okresy_ = new structures::SortedSequenceTable<string, Okres*>();
+	this->neutriedeneObce_ = new structures::UnsortedSequenceTable<string, Oblast*>;
+
 	this->filterNachadzaSa = new Filter_fi<bool, Obec>();
 	this->filterUcast = new FilterFI<double, Oblast>();
 	this->filterNazov = new Filter_fi<string, Oblast>();
@@ -83,6 +85,9 @@ void Volby::nacitajSubory()
 		pomDedina->set_nazov_kraju(nazovKraju);
 		obce_->insert(nazov, pomDedina);
 
+		
+
+		
 
 	}
 	is.close();
@@ -416,6 +421,140 @@ void Volby::vypisPodlaUcasti()
 
 void Volby::zoradMenu()
 {
+	int k;
+	std::cout << "chces zotriedit?" << endl;
+	std::cout << "1. Vsetky obce" << endl;
+	std::cout << "1. Iba obce vyhovujuce filtru" << endl;
+	cin >> k;
+	switch (k)
+	{
+	case 1: zoradVsetko();break;
+	case 2: zoradPodla(); break;
+	default: zoradMenu(); break;
+	}
+}
+
+void Volby::zoradVsetko()
+{
+	structures::UnsortedSequenceTable<string, Oblast*>* pomObce = new structures::UnsortedSequenceTable<string, Oblast*>();
+
+	int kolo, triedenie;
+	char rozhodnutie;
+	std::cout << "zadaj, pre ktore kolo: \n";
+	std::cin >> kolo;
+
+	filterUcast->set_alpha(0);
+	filterUcast->set_beta(100);
+	kUcast->set_kolo(kolo);
+	kVolici->set_kolo(kolo);
+	for (auto *item : *obce_)
+	{
+		if (filterUcast->evaluate(*item->accessData(), *kUcast))
+		{
+			pomObce->insert(item->accessData()->get_nazov(), item->accessData());
+		}
+	}
+	std::cout << "Podla coho chces Zoradit obce?: \n";
+	cout << "a.Nazov \n" << endl;
+	cout << "b.Volici \n" << endl;
+	cout << "c.Ucast\n" << endl;
+	cin >> rozhodnutie;
+	if (rozhodnutie == 'a')
+	{
+		structures::HeapSort<string, Oblast*, string, Oblast>* heap_sort = new structures::HeapSort<string, Oblast*, string, Oblast>();
+		std::cout << "1 - zostupne. \n";
+		std::cout << "2 - vzostupne. \n";
+		cin >> triedenie;
+		if (triedenie == 1)
+		{
+			heap_sort->sortDesc(*pomObce, *kNazov);
+
+		}
+		else if (triedenie == 2)
+		{
+			heap_sort->sortAsc(*pomObce, *kNazov);
+
+		}
+		else
+		{
+			zoradPodla();
+		}
+		delete heap_sort;
+
+	}
+	if (rozhodnutie == 'b')
+	{
+		structures::HeapSort<string, Oblast*, int, Oblast>* heap_sort = new structures::HeapSort<string, Oblast*, int, Oblast>();
+		std::cout << "1 - zostupne. \n";
+		std::cout << "2 - vzostupne. \n";
+		cin >> triedenie;
+		if (triedenie == 1)
+		{
+			heap_sort->sortDesc(*pomObce, *kVolici);
+
+		}
+		else if (triedenie == 2)
+		{
+			heap_sort->sortAsc(*pomObce, *kVolici);
+
+		}
+		else
+		{
+			zoradPodla();
+		}
+		delete heap_sort;
+
+	}
+	if (rozhodnutie == 'c')
+	{
+		structures::HeapSort<string, Oblast*, double, Oblast>* heap_sort = new structures::HeapSort<string, Oblast*, double, Oblast>();
+
+		std::cout << "1 - zostupne. \n";
+		std::cout << "2 - vzostupne. \n";
+		cin >> triedenie;
+		if (triedenie == 1)
+		{
+			heap_sort->sortDesc(*pomObce, *kUcast);
+
+		}
+		else if (triedenie == 2)
+		{
+			heap_sort->sortAsc(*pomObce, *kUcast);
+
+		}
+		else //if (triedenie == 3)
+		{
+			zoradPodla();
+		}
+		delete heap_sort;
+
+	}
+
+	for (auto item : *pomObce)
+	{
+		if (rozhodnutie == 'a')
+		{
+			cout << item->accessData()->get_nazov() << endl;
+		}
+		else if (rozhodnutie == 'b')
+		{
+			cout << item->accessData()->get_nazov() << "-" << item->accessData()->get_pocet_zap_volicov(kolo) << endl;
+		}
+		else
+		{
+			cout << item->accessData()->get_nazov() << "-" << item->accessData()->get_ucast_volicov_percenta(kolo) << endl;
+
+		}
+
+	}
+
+
+
+	delete pomObce;
+}
+
+void Volby::zoradPodla()
+{
 	
 	structures::UnsortedSequenceTable<string, Oblast*>* pomObce = new structures::UnsortedSequenceTable<string, Oblast*>();
 	
@@ -427,9 +566,11 @@ void Volby::zoradMenu()
 	cout << "a.Nazov \n" << endl;
 	cout << "b.Volici \n" << endl;
 	cout << "c.Ucast\n" << endl;
+	
 	std::cin >> rozhodnutie;
 
 	
+		
 	std::cout << " Zadaj kolo a rozmedzie pre ucast pre obce, ktore chces zotriedit: \n";
 
 	std::cout << "zadaj dolna hranica: \n";
@@ -460,6 +601,8 @@ void Volby::zoradMenu()
 			pomObce->insert(item->accessData()->get_nazov(), item->accessData());
 		}
 	}
+	
+	
 
 	if (rozhodnutie == 'a')
 	{
@@ -479,7 +622,7 @@ void Volby::zoradMenu()
 		}
 		else
 		{
-			zoradMenu();
+			zoradPodla();
 		}
 		delete heap_sort;
 
@@ -502,7 +645,7 @@ void Volby::zoradMenu()
 		}
 		else
 		{
-			zoradMenu();
+			zoradPodla();
 		}
 		delete heap_sort;
 
@@ -524,13 +667,14 @@ void Volby::zoradMenu()
 			heap_sort->sortAsc(*pomObce, *kUcast);
 
 		}
-		else
+		else //if (triedenie == 3)
 		{
-			zoradMenu();
-		}
+			zoradPodla();
+		} 
 		delete heap_sort;
 
 	}
+	
 	for (auto item : *pomObce)
 	{
 		if (rozhodnutie == 'a')
@@ -547,12 +691,16 @@ void Volby::zoradMenu()
 		
 	}
 
+	
+
 	delete pomObce;
 }
 
 
 Volby::~Volby()
 {
+	delete neutriedeneObce_;
+
 	for (auto obce : *obce_)
 	{
 
